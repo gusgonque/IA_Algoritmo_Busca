@@ -12,7 +12,7 @@
 #include <string>
 #include <unordered_set>
 
-// Variáveis globais, definidas em main.cpp
+// Variáveis globais, definidas em grafo.cpp
 extern Grafo grafo;
 extern std::unordered_map<std::string, int> heuristicas;
 extern std::string pontoInicial, pontoFinal;

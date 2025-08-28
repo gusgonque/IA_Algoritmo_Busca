@@ -1,20 +1,22 @@
 #include <iostream>
 #include "grafo.h"
 #include "utils.h"
+#include "algoritmos/dfs.h"
 
-// Variáveis globais
-Grafo grafo;
-std::unordered_map<std::string, int> heuristicas;
-std::string pontoInicial, pontoFinal;
-bool grafoOrientado = false;
+// Variáveis globais, definidas em grafo.cpp
+extern Grafo grafo;
+extern std::unordered_map<std::string, int> heuristicas;
+extern std::string pontoInicial, pontoFinal;
+extern bool grafoOrientado;
 
 int main() {
 
     for (;;) {
         std::cout << "\n=== MENU ===\n"
-                  << "1) Carregar arquivo de entrada\n"
-                  << "2) Mostrar resumo (grafo/heuristicas)\n"
-                  << "0) Sair\n"
+                  << "1) Carregar arquivo de entrada.\n"
+                  << "2) Mostrar resumo. (grafo/heuristicas)\n"
+                  << "3) Executar algoritmo DFS. (Busca em Profundidade)\n"
+                  << "0) Sair.\n"
                   << "> ";
 
         std::string opcao;
@@ -41,7 +43,19 @@ int main() {
             lerArquivoEntrada(caminho);
         } else if (opcao == "2") {
             imprimirResumo(std::cout);
-        } else {
+        } else if (opcao == "3") {
+            if (pontoInicial.empty() || pontoFinal.empty()) {
+                std::cout << "Carregue um arquivo valido antes.\n";
+                continue;
+            }
+
+            std::cout << "Inicio da execucao\n";
+            auto R = executarDFS(pontoInicial, pontoFinal);
+            std::cout << "Fim da execucao\n";
+
+        }
+
+        else {
             std::cerr << "Opcao invalida.\n";
         }
     }

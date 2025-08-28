@@ -3,3 +3,9 @@
 //
 
 #include "grafo.h"
+
+// Variáveis globais
+Grafo grafo;
+std::unordered_map<std::string, int> heuristicas;
+std::string pontoInicial, pontoFinal;
+bool grafoOrientado = false;
