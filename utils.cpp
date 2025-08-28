@@ -10,6 +10,7 @@
 #include <iostream>
 #include <regex>
 #include <string>
+#include <unordered_set>
 
 // Variáveis globais, definidas em main.cpp
 extern Grafo grafo;
@@ -20,7 +21,7 @@ extern bool grafoOrientado;
 void lerArquivoEntrada(const std::string &caminhoArquivo) {
     std::ifstream arquivo(caminhoArquivo);
     if (!arquivo.is_open()) {
-        std::cerr << "Erro ao abrir o arquivo: " << caminhoArquivo << std::endl;
+        std::cout << "AVISO: Erro ao abrir o arquivo: " << caminhoArquivo << std::endl;
         return;
     }
 
@@ -40,26 +41,27 @@ void lerArquivoEntrada(const std::string &caminhoArquivo) {
 
         if (linha.find("ponto_inicial(") == 0) {
             if (!lerPontoInicial(linha))
-                std::cerr << "AVISO [linha "<< numLinhas <<"] ponto_inicial malformado. (esperado ponto_inicial(X).)" << std::endl;
+                std::cout << "AVISO [linha "<< numLinhas <<"] ponto_inicial malformado. (esperado ponto_inicial(X).)" << std::endl;
         } else if (linha.find("ponto_final(") == 0) {
             if (!lerPontoFinal(linha))
-                std::cerr << "AVISO [linha "<< numLinhas <<"] ponto_final malformado. (esperado ponto_final(Y).)" << std::endl;
+                std::cout << "AVISO [linha "<< numLinhas <<"] ponto_final malformado. (esperado ponto_final(Y).)" << std::endl;
         } else if (linha.find("orientado(") == 0) {
             if (!lerOrientacao(linha))
-                std::cerr << "AVISO [linha "<< numLinhas <<"] orientado malformado. (esperado orientado(n). ou orientado(s).)" << std::endl;
+                std::cout << "AVISO [linha "<< numLinhas <<"] orientado malformado. (esperado orientado(n). ou orientado(s).)" << std::endl;
         } else if (linha.find("pode_ir(") == 0) {
             if (!lerAresta(linha))
-                std::cerr << "AVISO [linha "<< numLinhas <<"] pode_ir malformado. (esperado pode_ir(U,V,c).)" << std::endl;
+                std::cout << "AVISO [linha "<< numLinhas <<"] pode_ir malformado. (esperado pode_ir(U,V,c).)" << std::endl;
         } else if (linha.find("h(") == 0) {
             if (!lerHeuristica(linha))
-                std::cerr << "AVISO [linha "<< numLinhas <<"] heuristica malformada. (esperado h(U,ponto_final,c).)" << std::endl;
+                std::cout << "AVISO [linha "<< numLinhas <<"] heuristica malformada. (esperado h(U,ponto_final,c).)" << std::endl;
         } else
-            std::cerr << "AVISO [linha "<< numLinhas <<"] Linha nao reconhecida: " << linha << std::endl;
+            std::cout << "AVISO [linha "<< numLinhas <<"] Linha nao reconhecida: " << linha << std::endl;
 
         numLinhas++;
     }
 
     arquivo.close();
+    std::cout << "Arquivo carregado.\n";
 }
 
 /// Remove espaços em branco (ASCII) no começo e no fim da string, in-place.
@@ -232,4 +234,43 @@ bool lerHeuristica(const std::string &linha) {
 
     heuristicas[u] = custoH;
     return true;
+}
+
+void imprimirResumo(std::ostream &out) {
+    out << "ponto_inicial: " << (pontoInicial.empty() ? "<vazio>" : pontoInicial) << '\n';
+    out << "ponto_final  : " << (pontoFinal.empty() ? "<vazio>" : pontoFinal) << '\n';
+    out << "orientado    : " << (grafoOrientado ? "s" : "n") << '\n';
+
+    // Conjunto de nos distintos (origens, destinos e nos com heuristica)
+    std::unordered_set<std::string> nosDistintos;
+
+    // Origens: chaves do grafo
+    for (const auto& par : grafo) {
+        nosDistintos.insert(par.first);
+        // Destinos: cada aresta da lista de adjacencia
+        for (const auto& aresta : par.second) {
+            nosDistintos.insert(aresta.destino);
+        }
+    }
+
+    // Nos que aparecem somente em heuristicas
+    for (const auto& h : heuristicas) {
+        nosDistintos.insert(h.first);
+    }
+
+    const size_t nos = nosDistintos.size();
+
+    size_t adjEntradas = 0;
+    for (const auto& par : grafo) adjEntradas += par.second.size();
+
+    // Nota: se houver self-loops, a contagem de arestas em nao orientado pode nao ser exata com /2.
+    const size_t arestas = grafoOrientado ? adjEntradas : (adjEntradas / 2);
+
+    out << "nos: " << nos << '\n';
+    out << "arestas: " << arestas << " (entradas de adjacencia = " << adjEntradas << ")\n";
+
+    out << "heuristicas (total: " << heuristicas.size() << "):\n";
+    for (const auto& h : heuristicas) {
+        out << "  " << h.first << " : " << h.second << '\n';
+    }
 }

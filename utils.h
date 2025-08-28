@@ -6,6 +6,7 @@
 #define UTILS_H
 
 #include <string>
+#include <iosfwd>
 
 /// Lê um arquivo de definição de labirinto/grafo e preenche as estruturas globais.
 /// Formato esperado por linha: ponto_inicial(X)., ponto_final(Y)., orientado(s|n).,
@@ -45,5 +46,13 @@ bool lerAresta(const std::string &linha);
 /// @return true se reconheceu/aplicou; false caso contrário.
 /// @notes Ideal validar se Goal == pontoFinal (quando já conhecido) e hc >= 0.
 bool lerHeuristica(const std::string &linha);
+
+/// Imprime um resumo do estado atual carregado (grafo e heuristicas).
+/// Mostra: ponto_inicial, ponto_final, orientado (s/n),
+/// numero de nos, numero de arestas (e total de entradas de adjacencia),
+/// e a lista (chave:valor) das heuristicas.
+/// Nao altera estado global.
+/// @param out Stream de saida (ex.: std::cout).
+void imprimirResumo(std::ostream& out);
 
 #endif //UTILS_H
