@@ -8,8 +8,8 @@ O labirinto é representado como um **grafo ponderado** e pode ser orientado ou 
 
 ## 👥 Integrantes
 
-- [Nome 1]
-- [Nome 2]
+- André Luiz Grem Voigt
+- Gustavo Gonçalves Queiroz
 
 ---
 
@@ -37,7 +37,7 @@ O labirinto é representado como um **grafo ponderado** e pode ser orientado ou 
 - Impressão da execução passo a passo:
     - Nó sendo expandido
     - Lista da fronteira
-    - Medida de desempenho (ex: número de nós expandidos)
+    - Medida de desempenho: Número de nós expandidos
 - Saída final com:
     - Caminho encontrado
     - Custo total
