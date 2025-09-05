@@ -2,6 +2,8 @@
 #include "grafo.h"
 #include "utils.h"
 #include "algoritmos/dfs.h"
+#include "algoritmos/a_estrela.h"
+#include "algoritmos/a_limitado.h"
 
 // Variáveis globais, definidas em grafo.cpp
 extern Grafo grafo;
@@ -16,6 +18,8 @@ int main() {
                   << "1) Carregar arquivo de entrada.\n"
                   << "2) Mostrar resumo. (grafo/heuristicas)\n"
                   << "3) Executar algoritmo DFS. (Busca em Profundidade)\n"
+                  << "4) Executar algoritmo A*.\n"
+                  << "5) Executar algoritmo A* com fio limitado.\n"
                   << "0) Sair.\n"
                   << "> ";
 
@@ -53,6 +57,51 @@ int main() {
             auto R = executarDFS(pontoInicial, pontoFinal);
             std::cout << "Fim da execucao\n";
 
+        } else if (opcao == "4") {
+            if (pontoInicial.empty() || pontoFinal.empty()) {
+                std::cout << "Carregue um arquivo valido antes.\n";
+                continue;
+            }
+            std::cout << "Inicio da execucao (A*)\n";
+            auto R = executarAEstrela(pontoInicial, pontoFinal);
+            std::cout << "Fim da execucao\n";
+
+            if (R.encontrou) {
+                std::cout << "Caminho encontrado: ";
+                for (auto &n : R.caminho) std::cout << n << " ";
+                std::cout << "\nCusto total: " << R.custo_total
+                          << "\nNos expandidos: " << R.nos_expandidos << "\n";
+            } else {
+                std::cout << "Nao foi possivel encontrar caminho.\n";
+            }
+        
+        } else if (opcao == "5") {
+            if (pontoInicial.empty() || pontoFinal.empty()) {
+                std::cout << "Carregue um arquivo valido antes.\n";
+                continue;
+            }
+            std::cout << "Informe o comprimento do fio: ";
+            int fio;
+            if (!(std::cin >> fio)) {
+                std::cerr << "Entrada invalida.\n";
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                continue;
+            }
+            std::cin.ignore(); // descartar newline pendente
+
+            std::cout << "Inicio da execucao (A* Limitado)\n";
+            auto R = executarAEstrelaLimitado(pontoInicial, pontoFinal, fio);
+            std::cout << "Fim da execucao\n";
+
+            if (R.encontrou) {
+                std::cout << "Caminho encontrado: ";
+                for (auto &n : R.caminho) std::cout << n << " ";
+                std::cout << "\nCusto total: " << R.custo_total
+                          << "\nNos expandidos: " << R.nos_expandidos << "\n";
+            } else {
+                std::cout << "Nao foi possivel encontrar caminho dentro do comprimento do fio.\n";
+            }
         }
 
         else {
