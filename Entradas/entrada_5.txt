@@ -1,0 +1,17 @@
+ponto_inicial(s).
+ponto_final(t).
+orientado(n).
+
+% ordem das arestas em s: c primeiro, depois a (para forcar DFS a ir por c)
+pode_ir(s,c,10).
+pode_ir(s,a,2).
+
+pode_ir(a,b,2).
+pode_ir(b,t,2).
+pode_ir(c,t,50).
+
+h(s,t,6).
+h(a,t,4).
+h(b,t,2).
+h(c,t,50).
+h(t,t,0).

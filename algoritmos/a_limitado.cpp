@@ -104,7 +104,7 @@ void imprimirIteracaoAEstrelaLimitado(std::ostream &out, int iter,
     const std::unordered_map<std::string, int> &g, int nosExpandidos, int comprimentoRestante) {
     
     out << "Iteracao " << iter << ":\n";
-    out << "Fila: ";
+    out << "Lista: ";
 
     std::vector<NoAEstrela> tmp;
     while (!fronteira.empty()) {
@@ -122,6 +122,6 @@ void imprimirIteracaoAEstrelaLimitado(std::ostream &out, int iter,
     }
     out << "\n";
 
-    out << "Medida de desempenho: " << nosExpandidos << "\n";
+    out << "Número de nós expandidos: " << nosExpandidos << "\n";
     out << "Comprimento restante: " << comprimentoRestante << "\n\n";
 }

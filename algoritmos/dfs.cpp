@@ -120,6 +120,6 @@ void imprimirIteracaoDFS(std::ostream &out, int iter, std::stack<std::string> pi
     }
     out << "\n";
 
-    out << "Medida de desempenho: " << nosExpandidos << "\n\n";
+    out << "Número de nós expandidos: " << nosExpandidos << "\n\n";
 
 }

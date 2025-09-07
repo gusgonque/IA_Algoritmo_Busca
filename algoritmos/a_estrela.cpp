@@ -114,5 +114,5 @@ void imprimirIteracaoAEstrela(std::ostream &out, int iter,
     }
     out << "\n";
 
-    out << "Medida de desempenho: " << nosExpandidos << "\n\n";
+    out << "Número de nós expandidos: " << nosExpandidos << "\n\n";
 }

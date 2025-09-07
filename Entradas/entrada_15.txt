@@ -1,0 +1,47 @@
+ponto_inicial(s).
+ponto_final(t).
+orientado(n).
+
+% ordem em s: ruim primeiro, depois medio, depois bom
+pode_ir(s,b1,1).
+pode_ir(s,m1,2).
+pode_ir(s,a1,1).
+
+% ramo bom (4)
+pode_ir(a1,a2,1).
+pode_ir(a2,a3,1).
+pode_ir(a3,t,1).
+
+% ramo medio (6)
+pode_ir(m1,m2,2).
+pode_ir(m2,t,2).
+
+% ramo ruim (15)
+pode_ir(b1,b2,1).
+pode_ir(b2,b3,1).
+pode_ir(b3,b4,1).
+pode_ir(b4,b5,1).
+pode_ir(b5,t,10).
+
+% enganadores (nao levam a t mais barato)
+pode_ir(a2,e1,5).
+pode_ir(b3,d1,2).
+pode_ir(m1,c1,3).
+
+% heuristicas = menor distancia real ate t (admissivel)
+h(t,t,0).
+h(a3,t,1).
+h(a2,t,2).
+h(a1,t,3).
+h(m2,t,2).
+h(m1,t,4).
+h(s,t,4).
+
+h(b1,t,5).
+h(b2,t,6).
+h(b3,t,7).
+h(b4,t,8).
+h(b5,t,9).
+h(e1,t,7).
+h(d1,t,9).
+h(c1,t,7).

@@ -15,14 +15,15 @@ O labirinto é representado como um **grafo ponderado** e pode ser orientado ou 
 
 ## 📁 Estrutura do Projeto
 
-| Pasta/Arquivo | Responsabilidade |
-|---------------|------------------|
-| `algoritmos/a_estrela.cpp/.h` | Implementação do algoritmo A\* (melhor caminho com heurística) |
-| `algoritmos/dfs.cpp/.h`    | Implementação da Busca em Profundidade (pior caminho) |
-| `algoritmos/a_limitado.cpp/.h`| Implementação do A\* com limite de custo (bônus) |
-| `grafo.h/.cpp`            | Estrutura de dados e manipulação do grafo e heurísticas |
-| `utils.h/.cpp`           | Leitura e processamento do arquivo de entrada |
-| `main.cpp`                 | Ponto principal do programa, onde tudo é orquestrado |
+| Pasta/Arquivo                  | Responsabilidade                                               |
+|--------------------------------|----------------------------------------------------------------|
+| `algoritmos/a_estrela.cpp/.h`  | Implementação do algoritmo A\* (melhor caminho com heurística) |
+| `algoritmos/dfs.cpp/.h`        | Implementação da Busca em Profundidade (pior caminho)          |
+| `algoritmos/a_limitado.cpp/.h` | Implementação do A\* com limite de custo (bônus)               |
+| `Entradas/`   | Pasta com arquivos de entrada usados para testar os algoritmos |
+| `grafo.h/.cpp`                 | Estrutura de dados e manipulação do grafo e heurísticas        |
+| `utils.h/.cpp`                 | Leitura e processamento do arquivo de entrada                  |
+| `main.cpp`                     | Ponto principal do programa, onde tudo é orquestrado           |
 
 ---
 
@@ -44,6 +45,35 @@ O labirinto é representado como um **grafo ponderado** e pode ser orientado ou 
     - Total de nós expandidos
 
 ---
+
+### 🚀 Como executar
+
+#### Pré-requisitos
+- **CMake** compatível com o projeto. O `CMakeLists.txt` está com `cmake_minimum_required(VERSION 3.31)`.
+  - Se mantiver 3.31, instale CMake 3.31+.
+  - *(Opcional)* Para maior compatibilidade, você pode reduzir para `3.20`.
+- **Compilador C++20**:
+  - GCC ≥ 10, Clang ≥ 12 ou MSVC ≥ 19.28.
+- **Nenhuma biblioteca adicional é necessária.** O projeto usa apenas a STL.
+
+#### CLion (recomendado)
+1. Abra o diretório do projeto no **CLion**.
+2. O CLion configurará o CMake e gerará o alvo `IA_P2`.
+3. **Defina o Working Directory** (para o programa encontrar os `.txt` por caminho relativo):  
+   *Run → Edit Configurations → Working directory* = **`$ProjectFileDir$`**
+4. Build: **Build → Build ‘IA_P2’**.
+5. Run: **Run → Run ‘IA_P2’**.
+  - No menu do programa, use **1)** para carregar o arquivo de entrada (ex.: `Entradas/entrada_5.txt`), **3)** para DFS, **4)** para A*, **5)** para A* limitado.
+
+#### Terminal (Linux/macOS)
+```bash
+# na raiz do projeto
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . -j
+./IA_P2
+
+```
 
 ## 📥 Formato do Arquivo de Entrada
 

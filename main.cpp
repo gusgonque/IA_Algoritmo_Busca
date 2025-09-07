@@ -53,9 +53,18 @@ int main() {
                 continue;
             }
 
-            std::cout << "Inicio da execucao\n";
+            std::cout << "Inicio da execucao (DFS)\n";
             auto R = executarDFS(pontoInicial, pontoFinal);
             std::cout << "Fim da execucao\n";
+
+            if (R.encontrou) {
+                std::cout << "Caminho encontrado: ";
+                for (auto &n : R.caminho) std::cout << n << " ";
+                std::cout << "\nCusto total: " << R.custo_total
+                          << "\nNos expandidos: " << R.nos_expandidos << "\n";
+            } else {
+                std::cout << "Nao foi possivel encontrar caminho.\n";
+            }
 
         } else if (opcao == "4") {
             if (pontoInicial.empty() || pontoFinal.empty()) {
